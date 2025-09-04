@@ -1,0 +1,118 @@
+import cv2
+import numpy as np
+
+# -------------------------------
+# Función para detectar los dos objetos amarillos principales
+# -------------------------------
+def detectar_lineas_amarillas(frame):
+    # Convertimos la imagen de BGR (por defecto en OpenCV) a HSV,
+    # ya que HSV facilita la detección de colores
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+    # Definimos el rango del color amarillo en HSV
+    # (estos valores pueden ajustarse según la iluminación de la cámara)
+    # lower_yellow = np.array([20, 100, 100])   # Amarillo más tenue
+    # upper_yellow = np.array([30, 255, 255])   # Amarillo brillante
+    lower_yellow = np.array([18, 80, 50])   # bajamos S y V
+    upper_yellow = np.array([35, 255, 255]) # mantenemos límite superior
+
+    # Creamos una máscara binaria donde solo quedan los píxeles amarillos
+    mask = cv2.inRange(hsv, lower_yellow, upper_yellow)
+
+    # Buscamos los contornos de las regiones amarillas detectadas
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    #seleccionamos solo los contornos que esten es cierto intervalo
+    contours_selected=[]
+    for i in contours:
+        area_contour=cv2.contourArea(i)
+        if 700<area_contour:
+            contours_selected.append(i)
+            
+        
+    # Ordenamos los contornos encontrados de mayor a menor área
+    # y nos quedamos solo con los dos más grandes (los carriles laterales)
+    contours_selected = sorted(contours_selected , key=cv2.contourArea, reverse=True)[:2]
+
+    centers = []  # Lista donde guardaremos los centros de los objetos detectados
+    for cnt in contours_selected :
+        area_line=cv2.contourArea(cnt)
+        # Calculamos los momentos del contorno para hallar el centroide
+        M = cv2.moments(cnt)
+        if M["m00"] > 0:  # Verificamos que el área no sea cero (para evitar división por cero)
+            cx = int(M["m10"] / M["m00"])  # Coordenada X del centro
+            cy = int(M["m01"] / M["m00"])  # Coordenada Y del centro
+            centers.append((cx, cy))       # Guardamos el centro detectado
+            #.append() es un método de las listas en Python que agrega un elemento al final de la lista.
+            # Dibujamos el contorno del objeto en verde
+            cv2.drawContours(frame, [cnt], -1, (0, 255, 0), 2)
+
+            # Escribir el área encima del objeto
+            cv2.putText(frame, f"Area: {int(area_line)}", (cx - 40, cy - 10),cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+            
+            # Dibujamos un círculo rojo en el centro del objeto
+            cv2.circle(frame, (cx, cy), 5, (0, 0, 255), -1)
+
+    # Dibujar línea central con margen
+    height, width, _ = frame.shape
+    mid_x_line = width // 2
+    margen = 30  # ancho de la franja de tolerancia
+
+    # Dibujar línea central (verde) y márgenes (rojos)
+    cv2.line(frame, (mid_x_line, 0), (mid_x_line, height), (0, 255, 0), 2)
+    cv2.line(frame, (mid_x_line - margen, 0), (mid_x_line - margen, height), (0, 0, 255), 1)
+    cv2.line(frame, (mid_x_line + margen, 0), (mid_x_line + margen, height), (0, 0, 255), 1)
+ 
+    # Si encontramos exactamente dos objetos amarillos, dibujamos la línea de unión
+    if len(centers) == 2:
+        (x1, y1), (x2, y2) = centers  # Extraemos las coordenadas de los dos centros
+
+        # Calculamos el punto medio entre los dos objetos
+        mid_x = (x1 + x2) // 2
+        mid_y = (y1 + y2) // 2
+
+        # Calcular la distancia entre los dos puntos
+        distancia = int(((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5)
+        
+        if distancia>50:
+            # Dibujamos una línea azul que une los dos centros detectados
+            cv2.line(frame, (x1, y1), (x2, y2), (255, 0, 0), 2)
+            # Dibujamos un círculo amarillo en el punto medio
+            cv2.circle(frame, (mid_x, mid_y), 6, (0, 255, 255), -1)
+            # Escribir la distancia en la imagen (en el punto medio de la línea)
+            cv2.putText(frame, f"Dist: {distancia}px", (mid_x - 40, mid_y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
+            # Verificar si el punto medio toca la franja central
+            if mid_x_line - margen < mid_x < mid_x_line + margen:
+                print("⚠️ Punto medio cruzó la línea central")
+            
+        
+    # Retornamos la imagen procesada
+    return frame
+
+
+# -------------------------------
+# Código principal: captura de video en vivo
+# -------------------------------
+cap = cv2.VideoCapture(0)  # Capturamos desde la cámara (0 = cámara por defecto)
+
+while True:
+    # Leemos un frame de la cámara
+    ret, frame = cap.read()
+    if not ret:  # Si no se puede leer, salimos
+        break
+
+    # Procesamos el frame para detectar los objetos amarillos y dibujar la línea
+    resultado = detectar_lineas_amarillas(frame)
+
+    # Mostramos la imagen resultante en una ventana
+    cv2.imshow("Carro autonomo - detección de carril", resultado)
+
+    # Esperamos tecla 'q' para salir del programa
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# Liberamos la cámara y cerramos las ventanas al finalizar
+cap.release()
+cv2.destroyAllWindows()
+
+#trackbar
