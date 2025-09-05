@@ -1,0 +1,31 @@
+#Canny Edge Detector
+#Stages: 1.Noise Reduction, serching for the intencity of the gradiant, not maximum supession,  thresholds 
+import cv2
+import numpy as np
+
+webcam_id=0
+cap=cv2.VideoCapture(webcam_id)
+
+#canny edge detector
+threshold_one=50 #minimum
+threshold_two=150 #maximum
+#more edges or more detection if we decrease the number of both thresholds
+aperture_size=3 # size of the kernel
+
+while(cap.isOpened):
+    #capture frame by frame
+    ret, frame = cap.read()
+    if ret == True:
+        #Operations on the frame 
+        edges=cv2.Canny(frame,threshold_one,threshold_two,aperture_size)
+        #Display
+        cv2.imshow('original',frame)
+        cv2.imshow('canny edge detection',edges)
+        #exit
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+    else:
+        break
+    
+cap.release
+cv2.destroyAllWindows()
