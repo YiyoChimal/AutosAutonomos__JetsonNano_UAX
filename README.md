@@ -5,7 +5,7 @@
 JetRacer es un carro de carreras aunonomo con IA de la marca Waveshare, controlado por la placa NVIDIA Jetson Nano.
 
 ## DonkeyCar Raspberry
-
+![DonkeyCar_Raspberry](https://github.com/user-attachments/assets/24066fcc-100a-40ef-9afa-478995db3128)
 Debido a los problemas tecnicos en el sistema operativo del JetRacer se modifico el carro, cambiando unicamente la unidad de procesamiento por una Raspberry Pi 4 Model B, convirtiendo el JerRacer en un Donkeycar.
 
 ## Bitacora
