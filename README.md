@@ -12,6 +12,9 @@ Debido a los problemas tecnicos en el sistema operativo del JetRacer se modifico
 ## Video Demostrativo del funcionamiento
 https://youtube.com/shorts/JhhrYf8vkWc?feature=share
 
+## Presentación
+https://www.canva.com/design/DAG51bNdjOk/WuDBwdZF9X6h2TIID-Xssw/edit?utm_content=DAG51bNdjOk&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
 ## Bitacora
 https://docs.google.com/document/d/1a-LP-SDCRR2rlNPcGg-bMX13OksBI200tUrVF5rkLrs/edit?usp=sharing
 
