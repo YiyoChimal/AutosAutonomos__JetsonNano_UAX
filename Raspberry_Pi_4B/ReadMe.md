@@ -1,8 +1,8 @@
 # DonkeyCar con Raspberry
-Devido a los probemas con la corrupción del sismetam operativo que tivimos con el carro Jetracer, decidomos cambiar la unidad de procesamiento 
-de una JetsonNano a una Raspberry debido a que esta contaba con mayor documentación y con una potencia necesaroa para hacer funcianar el proyect.
+A causa de los probemas con la corrupción del sismetam operativo que tivimos con el carro Jetracer, decidomos cambiar la unidad de procesamiento 
+de una JetsonNano a una Raspberry ya que esta contaba con mayor documentación y con una potencia de procesamiento necesaroa para hacer funcianar el proyect0.
 
-De vido a esto tuvimos que hacer una lijeras adaptaciones, que en su mayoria fueron en cuentión de conexiones electicas. Acontinuación se mostrara el material y las conexiones a realizar para 
+Debido a esto tuvimos que hacer unas lijeras adaptaciones, que en su mayoria fueron en cuesntión a las conexiones elécticas. Acontinuación se mostrara el material y las conexiones a realizar para 
 la adaptación.
 
 ## Material
