@@ -9,8 +9,10 @@ JetRacer es un carro de carreras aunonomo con IA de la marca Waveshare, controla
 
 Debido a los problemas tecnicos en el sistema operativo del JetRacer se modifico el carro, cambiando unicamente la unidad de procesamiento por una Raspberry Pi 4 Model B, convirtiendo el JerRacer en un Donkeycar.
 
+## Video Demostrativo del funcionamiento
+https://youtube.com/shorts/JhhrYf8vkWc?feature=share
+
 ## Bitacora
 https://docs.google.com/document/d/1a-LP-SDCRR2rlNPcGg-bMX13OksBI200tUrVF5rkLrs/edit?usp=sharing
 
-## Video Demostrativo del funcionamiento
-https://youtube.com/shorts/JhhrYf8vkWc?feature=share
+
