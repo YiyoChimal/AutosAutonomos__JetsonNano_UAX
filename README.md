@@ -11,3 +11,6 @@ Debido a los problemas tecnicos en el sistema operativo del JetRacer se modifico
 
 ## Bitacora
 https://docs.google.com/document/d/1a-LP-SDCRR2rlNPcGg-bMX13OksBI200tUrVF5rkLrs/edit?usp=sharing
+
+## Video Demostrativo del funcionamiento
+https://youtube.com/shorts/JhhrYf8vkWc?feature=share
